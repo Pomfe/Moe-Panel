@@ -17,33 +17,53 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-<body>
-<div class="container-fluid">
-	<p>Keep in mind that this is a alpha version of the mod panel, click <a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">here</a> to logout or <a href="http://cayootie.pomf.se/user/panel" target="_BLANK">here</a> to go to the panel for your personal account.</p>
-	<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
-		<input type="hidden" name="do" value="fetch">
-		<input type="hidden" name="action" value="fetch">
-		<div class="form-group">
-			<label for="date">Date:</label>
-			<input id="date" type="date" name="date"  data-date-format="YYYY-MM-DD" value="<?php echo date('Y-m-d');?>">
-		</div>
-		<div class="form-group">
-			<label for="amount">Amount:</label>
-			<input id="amount" type="number" name="count" value="30">
-		</div>
+	<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="<?php echo MOE_URL;?>"><?php echo POMF_NAME; ?></a>
+			</div>
 
-		<div class="form-group">
-			<label for="amount">Keyword:</label>
-			<input type="text" name="keyword">
+	<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="<?php echo MOE_URL; ?>/user/panel" target="_BLANK">Moe Panel</a></li>
+					<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
+				</ul>
+			</div>
 		</div>
-		<input class="btn btn-default" type="submit" value="fetch">
-	</form>
-	<br>
-	<table id="result" class="table">
-		<tr>
-			<th>ID</th>
-			<th>Orginal Name</th>
-			<th>Filename</th>
-			<th>Size (bytes)</th>
-			<th>Action</th>
-		</tr>
+	</nav>
+	<div class="container-fluid">
+		<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
+			<input type="hidden" name="do" value="fetch">
+			<input type="hidden" name="action" value="fetch">
+			<div class="form-group">
+				<label for="date">Date:</label>
+				<input id="date" type="date" name="date"  data-date-format="YYYY-MM-DD" value="<?php echo date('Y-m-d');?>">
+			</div>
+			<div class="form-group">
+				<label for="amount">Amount:</label>
+				<input id="amount" type="number" name="count" value="30">
+			</div>
+
+			<div class="form-group">
+				<label for="amount">Keyword:</label>
+				<input type="text" name="keyword">
+			</div>
+			<input class="btn btn-default" type="submit" value="fetch">
+		</form>
+		<br>
+		<table id="result" class="table">
+			<tr>
+				<th>ID</th>
+				<th>Orginal Name</th>
+				<th>Filename</th>
+				<th>Size (bytes)</th>
+				<th>Action</th>
+			</tr>
