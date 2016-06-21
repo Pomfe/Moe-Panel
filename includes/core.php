@@ -196,11 +196,11 @@ function fetchFiles($date, $count, $keyword) {
             <td>'.strip_tags($row['originalname']).'</td>
             <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
             <td>'.$row['size'].'</td>
-            <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=delete&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
+            <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=delete&action=remove&fileid='.$row['id'].'&filename='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
 
     }
-    echo $i.' Files in total at being shown.';
     require('../templates/footer.php');
+    echo '<p>'.$i.' Files in total at being shown.</p>';
 
 
 }
@@ -240,40 +240,40 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $org
                 <p> Status 1 = removed (not shown)</p>
                 <table id="result" style="width:100%">
                 <tr><th>ID</th><th>File</th><th>File ID</th><th>Reporter</th><th>Status</th><th>Action</th></tr>';
-while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
-    $i++;
-    echo '<tr><td>'.$row['id'].'</td>
-        <td><a href="'.POMF_URL.strip_tags($row['file']).'" target="_BLANK">'.strip_tags($row['file']).'</td>
-        <td>'.$row['fileid'].'</td>
-        <td>'.$row['reporter'].'</td>
-        <td>'.$row['status'].'</td>
-        <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
+                while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
+                    $i++;
+                    echo '<tr><td>'.$row['id'].'</td>
+                        <td><a href="'.POMF_URL.strip_tags($row['file']).'" target="_BLANK">'.strip_tags($row['file']).'</td>
+                        <td>'.$row['fileid'].'</td>
+                        <td>'.$row['reporter'].'</td>
+                        <td>'.$row['status'].'</td>
+                        <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
 
-}
-require 'footer.php';
-echo $i.' Reports in total at being shown.';
+                }
+                require 'footer.php';
+                echo $i.' Reports in total at being shown.';
             } else {
                 echo 'You are not allowed to be here, yet.';
             }
             break;
 
-case "remove":
-    if ($_SESSION['id'] < '0') {
-        delete($file, $fileid);
-    }
-    if ($_SESSION['id'] > '0') {
-        $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
-        $do->bindParam(':id', $fileid);
-        $do->execute();
-        unlink(POMF_FILES_ROOT.$file);
-        cfdelete($file);
-        $do = $db->prepare("UPDATE reports SET status = (:status) WHERE fileid = (:fileid)");
-        $do->bindValue(':status', '1');
-        $do->bindValue(':fileid', $fileid);
-        $do->execute();
-        echo 'Deleted';
-        break;
-    }
+        case "remove":
+            if ($_SESSION['id'] < '0') {
+                delete($file, $fileid);
+            }
+            if ($_SESSION['id'] > '0') {
+                $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
+                $do->bindParam(':id', $fileid);
+                $do->execute();
+                unlink(POMF_FILES_ROOT.$file);
+                cfdelete($file);
+                $do = $db->prepare("UPDATE reports SET status = (:status) WHERE fileid = (:fileid)");
+                $do->bindValue(':status', '1');
+                $do->bindValue(':fileid', $fileid);
+                $do->execute();
+                echo 'Deleted';
+                break;
+            }
         }
     }
 }

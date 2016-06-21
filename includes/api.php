@@ -39,7 +39,7 @@ if(isset($_GET['do'])){
             break;
 
         case "delete":
-            delete($_GET['f'],$_GET['delid']);
+            delete($_GET['filename'],$_GET['fileid']);
             break;
 
         case "logout":
