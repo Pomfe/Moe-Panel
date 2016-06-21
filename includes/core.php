@@ -196,7 +196,7 @@ function fetchFiles($date, $count, $keyword) {
             <td>'.strip_tags($row['originalname']).'</td>
             <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
             <td>'.$row['size'].'</td>
-            <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=fetch&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
+            <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=delete&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
 
     }
     echo $i.' Files in total at being shown.';
