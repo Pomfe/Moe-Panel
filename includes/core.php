@@ -190,6 +190,7 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $ogi
                 $do->bindValue(':amount', (int) $count, PDO::PARAM_INT);
                 $do->bindValue(':keyword', "%".$keyword."%");
 
+                require('../templates/header.php');
 
                 $do->execute();
                 $i = 0;
@@ -199,11 +200,11 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $ogi
                         <td>'.strip_tags($row['originalname']).'</td>
                         <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
                         <td>'.$row['size'].'</td>
-                        <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
+                        <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
 
                 }
-                require 'footer.php';
                 echo $i.' Files in total at being shown.';
+                require('../templates/footer.php');
 
                 break;
 
