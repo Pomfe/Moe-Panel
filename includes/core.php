@@ -173,39 +173,44 @@ function delete($filename, $deleteid, $mod) {
     }
 }
 
-function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $oginalname) {
+function fetchFiles($date, $count, $keyword) {
+    if($_SESSION['level'] > '0') {
+        $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
+    } else {
+        $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) OR filename LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) ORDER BY id DESC LIMIT 0,:amount");
+        $do->bindValue(':userid', $_SESSION['id']);
+    }
+
+    $do->bindValue(':date', "%".$date."%");
+    $do->bindValue(':amount', (int) $count, PDO::PARAM_INT);
+    $do->bindValue(':keyword', "%".$keyword."%");
+
+    require('../templates/header.php');
+
+    $do->execute();
+    $i = 0;
+    while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
+        $i++;
+        echo '<tr><td>'.$row['id'].'</td>
+            <td>'.strip_tags($row['originalname']).'</td>
+            <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
+            <td>'.$row['size'].'</td>
+            <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
+
+    }
+    echo $i.' Files in total at being shown.';
+    require('../templates/footer.php');
+
+
+}
+
+function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $orginalname) {
     if ($_SESSION['level'] > '0') {
         global $db;
         switch($action) {
 
             case "fetch":
-                if($_SESSION['level'] > '0') {
-                    $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
-                } else {
-                    $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) OR filename LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) ORDER BY id DESC LIMIT 0,:amount");
-                    $do->bindValue(':userid', $_SESSION['id']);
-                }
-
-                $do->bindValue(':date', "%".$date."%");
-                $do->bindValue(':amount', (int) $count, PDO::PARAM_INT);
-                $do->bindValue(':keyword', "%".$keyword."%");
-
-                require('../templates/header.php');
-
-                $do->execute();
-                $i = 0;
-                while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
-                    $i++;
-                    echo '<tr><td>'.$row['id'].'</td>
-                        <td>'.strip_tags($row['originalname']).'</td>
-                        <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
-                        <td>'.$row['size'].'</td>
-                        <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['id'].'&file='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
-
-                }
-                echo $i.' Files in total at being shown.';
-                require('../templates/footer.php');
-
+                fetchFiles($date, $count, $keyword);
                 break;
 
             case "report":
