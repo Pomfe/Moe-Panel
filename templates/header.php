@@ -42,10 +42,9 @@
 		<div class="container-fluid">
 			<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
 				<input type="hidden" name="do" value="fetch">
-				<input type="hidden" name="action" value="fetch">
 				<div class="form-group">
 					<label for="date">Date:</label>
-					<input id="date" type="date" name="date"  data-date-format="YYYY-MM-DD" value="<?php echo date('Y-m-d');?>">
+					<input id="date" type="date" name="date" data-date-format="YYYY-MM-DD" value="<?php if (empty($date) {echo date('Y-m-d');} else { echo $date;}?>">
 				</div>
 				<div class="form-group">
 					<label for="amount">Amount:</label>
