@@ -193,6 +193,11 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $ogi
                 $do->execute();
                 $i = 0;
                 require 'header.php';
+                echo '<p>Keep in mind that this is a alpha version of the mod panel, click <a href="'.MOE_URL.'/includes/api.php?do=logout">here</a> to logout or <a href="'.MOE_URL.'/panel" target="_BLANK">here</a> to go to the panel for your personal account.</p>
+                    <form action="'.MOE_URL.'/includes/api.php" method="get">
+                    <input type="hidden" name="do" value="mod">
+                    <input type="hidden" name="action" value="fetch">
+                    Date: <input type="text" name="date" value="'.date('Y-m-d').'">';
                 while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
                     $i++;
                     echo '<tr><td>'.$row['id'].'</td>
