@@ -44,7 +44,7 @@
 				<input type="hidden" name="do" value="fetch">
 				<div class="form-group">
 					<label for="date">Date:</label>
-					<input id="date" type="date" name="date" data-date-format="YYYY-MM-DD" value="<?php if (empty($date) {echo date('Y-m-d');} else { echo $date;}?>">
+					<input id="date" type="date" name="date" data-date-format="YYYY-MM-DD" value="<?php if (empty($date)) {echo date('Y-m-d');} else { echo $date;}?>">
 				</div>
 				<div class="form-group">
 					<label for="amount">Amount:</label>
