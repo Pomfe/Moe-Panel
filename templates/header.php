@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<title>Mod</title>
+		<title>File Query</title>
 
 		<!-- Bootstrap -->
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
 <div class="container-fluid">
 	<p>Keep in mind that this is a alpha version of the mod panel, click <a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">here</a> to logout or <a href="http://cayootie.pomf.se/user/panel" target="_BLANK">here</a> to go to the panel for your personal account.</p>
 	<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
-		<input type="hidden" name="do" value="mod">
+		<input type="hidden" name="do" value="fetch">
 		<input type="hidden" name="action" value="fetch">
 		<div class="form-group">
 			<label for="date">Date:</label>

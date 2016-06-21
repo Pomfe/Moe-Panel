@@ -22,7 +22,7 @@ if(isset($_GET['do'])){
             generate($_GET['email'], $_GET['level']);
             break;
 
-        case: "fetch":
+        case "fetch":
             fetchFiles($_GET['date'], $_GET['count'], $_GET['keyword']);
             break;
 
