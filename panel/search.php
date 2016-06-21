@@ -1,4 +1,8 @@
 <?php
 include_once('../includes/core.php');
-mod($action ='fetch');
+if ($_SESSION['level'] > 0) {
+	mod($action ='fetch');
+} else {
+	search();
+}
 ?>
