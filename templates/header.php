@@ -19,8 +19,8 @@
 	</head>
 <body>
 <div class="container-fluid">
-	<p>Keep in mind that this is a alpha version of the mod panel, click <a href="<?php echo MOE_URL; ?>/user/includes/api.php?do=logout">here</a> to logout or <a href="http://cayootie.pomf.se/user/panel" target="_BLANK">here</a> to go to the panel for your personal account.</p>
-	<form class="form-inline" action="<?php echo MOE_URL; ?>/user/includes/api.php" method="get">
+	<p>Keep in mind that this is a alpha version of the mod panel, click <a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">here</a> to logout or <a href="http://cayootie.pomf.se/user/panel" target="_BLANK">here</a> to go to the panel for your personal account.</p>
+	<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
 		<input type="hidden" name="do" value="mod">
 		<input type="hidden" name="action" value="fetch">
 		<div class="form-group">
