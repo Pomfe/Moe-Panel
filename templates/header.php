@@ -18,8 +18,8 @@
 		<![endif]-->
 	</head>
 	<body>
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
+	<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 					<span class="sr-only">Toggle navigation</span>
@@ -37,9 +37,7 @@
 					<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
 				</ul>
 			</div>
-		</div>
-	</nav>
-	<div class="container-fluid">
+		</nav>
 		<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
 			<input type="hidden" name="do" value="fetch">
 			<input type="hidden" name="action" value="fetch">
