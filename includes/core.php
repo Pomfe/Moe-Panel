@@ -51,13 +51,13 @@ function generate($email, $level) {
         $password = SMTPD_PASSWORD;
 
         $headers = array ('From' => $from,
-                'To' => $to,
-                'Subject' => $subject);
+            'To' => $to,
+            'Subject' => $subject);
         $smtp = Mail::factory('smtp',
-                array ('host' => $host,
-                    'auth' => true,
-                    'username' => $username,
-                    'password' => $password));
+            array ('host' => $host,
+            'auth' => true,
+            'username' => $username,
+            'password' => $password));
 
         $mail = $smtp->send($to, $headers, $body);
 
@@ -131,12 +131,12 @@ function search($word) {
 function cfdelete($file) {
 
     $cloudflare = array(
-            'a' => 'zone_file_purge',
-            'tkn' => CF_TOKEN,
-            'email' => CF_EMAIL,
-            'z' => POMF_URL,
-            'url' => urlencode(POMF_URL.$file),
-            );
+        'a' => 'zone_file_purge',
+        'tkn' => CF_TOKEN,
+        'email' => CF_EMAIL,
+        'z' => POMF_URL,
+        'url' => urlencode(POMF_URL.$file),
+    );
 
     foreach($cloudflare as $dick=>$cum) { $cloudflare_string .= $dick.'='.$cum.'&'; }
     rtrim($cloudflare_string, '&');
@@ -174,6 +174,7 @@ function delete($filename, $deleteid, $mod) {
 }
 
 function fetchFiles($date, $count, $keyword) {
+    global $db;
     if($_SESSION['level'] > '0') {
         $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
     } else {
@@ -209,70 +210,70 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $org
         global $db;
         switch($action) {
 
-            case "fetch":
-                fetchFiles($date, $count, $keyword);
-                break;
+        case "fetch":
+            fetchFiles($date, $count, $keyword);
+            break;
 
-            case "report":
-                $do = $db->prepare("INSERT INTO reports (hash, date, file, fileid, reporter) VALUES (:hash, :date, :file, :fileid, :reporter)");
-                $do->bindValue(':file', strip_tags($file));
-                $do->bindValue(':date', date('Y-m-d'));
-                $do->bindValue(':reporter', $_SESSION['email']);
-                $do->bindValue(':fileid', $fileid);
-                $do->bindValue(':hash', $hash);
+        case "report":
+            $do = $db->prepare("INSERT INTO reports (hash, date, file, fileid, reporter) VALUES (:hash, :date, :file, :fileid, :reporter)");
+            $do->bindValue(':file', strip_tags($file));
+            $do->bindValue(':date', date('Y-m-d'));
+            $do->bindValue(':reporter', $_SESSION['email']);
+            $do->bindValue(':fileid', $fileid);
+            $do->bindValue(':hash', $hash);
+            $do->execute();
+            echo 'Thank you, report has been sent. The file will be reviewed and probably deleted.';
+            break;
+
+        case "reports":
+            if ($_SESSION['id'] === '1') {
+                $do = $db->prepare("SELECT * FROM reports WHERE status = '0'");
                 $do->execute();
-                echo 'Thank you, report has been sent. The file will be reviewed and probably deleted.';
-                break;
 
-            case "reports":
-                if ($_SESSION['id'] === '1') {
-                    $do = $db->prepare("SELECT * FROM reports WHERE status = '0'");
-                    $do->execute();
+                $i = 0;
+                echo'<!DOCTYPE html><html><head><title>Mod</title>
+                    <style>
+                    table,th,td{border:1px solid black; border-collapse:collapse;}
+            th,td{padding:5px;}
+            </style></head><body>
+                <p> Status 0 = not removed</p>
+                <p> Status 1 = removed (not shown)</p>
+                <table id="result" style="width:100%">
+                <tr><th>ID</th><th>File</th><th>File ID</th><th>Reporter</th><th>Status</th><th>Action</th></tr>';
+while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
+    $i++;
+    echo '<tr><td>'.$row['id'].'</td>
+        <td><a href="'.POMF_URL.strip_tags($row['file']).'" target="_BLANK">'.strip_tags($row['file']).'</td>
+        <td>'.$row['fileid'].'</td>
+        <td>'.$row['reporter'].'</td>
+        <td>'.$row['status'].'</td>
+        <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
 
-                    $i = 0;
-                    echo'<!DOCTYPE html><html><head><title>Mod</title>
-                        <style>
-                        table,th,td{border:1px solid black; border-collapse:collapse;}
-                    th,td{padding:5px;}
-                    </style></head><body>
-                        <p> Status 0 = not removed</p>
-                        <p> Status 1 = removed (not shown)</p>
-                        <table id="result" style="width:100%">
-                        <tr><th>ID</th><th>File</th><th>File ID</th><th>Reporter</th><th>Status</th><th>Action</th></tr>';
-                    while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
-                        $i++;
-                        echo '<tr><td>'.$row['id'].'</td>
-                            <td><a href="'.POMF_URL.strip_tags($row['file']).'" target="_BLANK">'.strip_tags($row['file']).'</td>
-                            <td>'.$row['fileid'].'</td>
-                            <td>'.$row['reporter'].'</td>
-                            <td>'.$row['status'].'</td>
-                            <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
+}
+require 'footer.php';
+echo $i.' Reports in total at being shown.';
+            } else {
+                echo 'You are not allowed to be here, yet.';
+            }
+            break;
 
-                    }
-                    require 'footer.php';
-                    echo $i.' Reports in total at being shown.';
-                } else {
-                    echo 'You are not allowed to be here, yet.';
-                }
-                break;
-
-            case "remove":
-                if ($_SESSION['id'] < '0') {
-                    delete($file, $fileid);
-                }
-                if ($_SESSION['id'] > '0') {
-                    $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
-                    $do->bindParam(':id', $fileid);
-                    $do->execute();
-                    unlink(POMF_FILES_ROOT.$file);
-                    cfdelete($file);
-                    $do = $db->prepare("UPDATE reports SET status = (:status) WHERE fileid = (:fileid)");
-                    $do->bindValue(':status', '1');
-                    $do->bindValue(':fileid', $fileid);
-                    $do->execute();
-                    echo 'Deleted';
-                    break;
-                }
+case "remove":
+    if ($_SESSION['id'] < '0') {
+        delete($file, $fileid);
+    }
+    if ($_SESSION['id'] > '0') {
+        $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
+        $do->bindParam(':id', $fileid);
+        $do->execute();
+        unlink(POMF_FILES_ROOT.$file);
+        cfdelete($file);
+        $do = $db->prepare("UPDATE reports SET status = (:status) WHERE fileid = (:fileid)");
+        $do->bindValue(':status', '1');
+        $do->bindValue(':fileid', $fileid);
+        $do->execute();
+        echo 'Deleted';
+        break;
+    }
         }
     }
 }
