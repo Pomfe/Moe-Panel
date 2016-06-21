@@ -25,7 +25,7 @@
 		<input type="hidden" name="action" value="fetch">
 		<div class="form-group">
 			<label for="date">Date:</label>
-			<input id="date" type="date" name="date" value="<?php echo date('Y-m-d');?>">
+			<input id="date" type="date" name="date"  data-date-format="YYYY-MM-DD" value="<?php echo date('Y-m-d');?>">
 		</div>
 		<div class="form-group">
 			<label for="amount">Amount:</label>
