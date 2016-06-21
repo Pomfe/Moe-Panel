@@ -22,6 +22,10 @@ if(isset($_GET['do'])){
             generate($_GET['email'], $_GET['level']);
             break;
 
+        case: "fetch":
+            fetchFiles($_GET['date'], $_GET['count'], $_GET['keyword']);
+            break;
+
         case "mod":
             mod($_GET['action'], $_GET['date'], $_GET['count'], $_GET['why'], $_GET['file'], $_GET['keyword'], $_GET['fileid'], $_GET['hash'], $_GET['originalname']);
             break;
