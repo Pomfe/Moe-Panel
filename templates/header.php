@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<title>File Query</title>
+		<title>Moe functions</title>
 
 		<!-- Bootstrap -->
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -35,6 +35,7 @@
 					<ul class="nav navbar-nav">
 						<li><a href="<?php echo MOE_URL; ?>/panel" target="_BLANK">Moe Panel</a></li>
 						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=invite" target="_BLANK">Invites</a></li>
+						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Reports</a></li>
 						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
 					</ul>
 				</div>
