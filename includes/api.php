@@ -27,7 +27,7 @@ if(isset($_GET['do'])){
             break;
 
         case "report":
-            report($_GET['file'], $_GET['fileid'], $_GET['hash']);
+            report($_GET['file']);
             break;
 
         case "mod":
