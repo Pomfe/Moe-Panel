@@ -18,7 +18,7 @@ if(isset($_GET['do'])){
             register($_POST['email'], $_POST['pass'], $_POST['code']);
             break;
 
-        case "invite-generate":
+        case "invite":
             generate($_GET['email'], $_GET['level']);
             break;
 

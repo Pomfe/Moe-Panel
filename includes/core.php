@@ -34,6 +34,9 @@ function register($email, $pass, $code) {
 function generate($email, $level) {
     global $db;
     if ($_SESSION['level'] === '1'){
+        if (empty($email) or empty($level)) {
+            include_once('../templates/invites.php');
+        }
         $do = $db->prepare("INSERT INTO invites (email, code, level) VALUES (:email, :code, :level)");
         $do->bindParam(':email', $email);
         $code = generateRandomString();
@@ -199,6 +202,7 @@ function fetchFiles($date, $count, $keyword) {
             <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=delete&action=remove&fileid='.$row['id'].'&filename='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
 
     }
+    echo '</table>';
     require('../templates/footer.php');
     echo '<p>'.$i.' Files in total at being shown.</p>';
 
