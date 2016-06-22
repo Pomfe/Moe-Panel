@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<title>File Query</title>
+		<title>invites</title>
 
 		<!-- Bootstrap -->
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -19,3 +19,17 @@
 	</head>
 	<body>
 
+		<div class="container-fluid">
+			<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
+				<input type="hidden" name="do" value="invite">
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<input id="email" type="email" name="email" required>
+				</div>
+				<div class="form-group">
+					<label for="level">Level:</label>
+					<input id="level" type="number" name="number" value="0">
+				</div>
+			</form>
+		</div>
+<?php include('footer.php');?>
