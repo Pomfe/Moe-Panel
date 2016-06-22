@@ -20,7 +20,7 @@
 	<body>
 
 		<div class="container-fluid">
-			<form class="form-inline" action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
+			<form action="<?php echo MOE_URL; ?>/includes/api.php" method="get">
 				<input type="hidden" name="do" value="invite">
 				<div class="form-group">
 					<label for="email">Email:</label>
@@ -30,6 +30,8 @@
 					<label for="level">Level:</label>
 					<input id="level" type="number" name="number" value="0">
 				</div>
+				<input class="btn btn-default" type="submit" value="invite">
+
 			</form>
 		</div>
 <?php include('footer.php');?>
