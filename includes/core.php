@@ -160,7 +160,7 @@ function fetchFiles($date, $count, $keyword) {
     $do->bindValue(':amount', (int) $count, PDO::PARAM_INT);
     $do->bindValue(':keyword', "%".$keyword."%");
 
-    require('../templates/header.php');
+    require('../templates/search.php');
 
     $do->execute();
     $i = 0;
