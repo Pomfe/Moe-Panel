@@ -34,6 +34,7 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li><a href="<?php echo MOE_URL; ?>/panel" target="_BLANK">Moe Panel</a></li>
+						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=invite" target="_BLANK">Invites</a></li>
 						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
 					</ul>
 				</div>
