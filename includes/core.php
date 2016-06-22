@@ -231,7 +231,7 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $org
                         <td>'.$row['fileid'].'</td>
                         <td>'.$row['reporter'].'</td>
                         <td>'.$row['status'].'</td>
-                        <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
+                        <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
 
                 }
                 echo '</table>';
