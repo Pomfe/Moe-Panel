@@ -223,15 +223,7 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $org
                 $do->execute();
 
                 $i = 0;
-                echo'<!DOCTYPE html><html><head><title>Mod</title>
-                    <style>
-                    table,th,td{border:1px solid black; border-collapse:collapse;}
-            th,td{padding:5px;}
-            </style></head><body>
-                <p> Status 0 = not removed</p>
-                <p> Status 1 = removed (not shown)</p>
-                <table id="result" style="width:100%">
-                <tr><th>ID</th><th>File</th><th>File ID</th><th>Reporter</th><th>Status</th><th>Action</th></tr>';
+                require('../templates/reports.php');
                 while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
                     $i++;
                     echo '<tr><td>'.$row['id'].'</td>
@@ -242,6 +234,7 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $org
                         <td><a href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
 
                 }
+                echo '</table>';
                 require 'footer.php';
                 echo $i.' Reports in total at being shown.';
             } else {
