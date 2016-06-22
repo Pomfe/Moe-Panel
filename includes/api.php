@@ -25,6 +25,7 @@ if(isset($_GET['do'])){
         case "fetch":
             fetchFiles($_GET['date'], $_GET['count'], $_GET['keyword']);
             break;
+
         case "report":
             report($_GET['file'], $_GET['fileid'], $_GET['hash']);
             break;
@@ -35,10 +36,6 @@ if(isset($_GET['do'])){
 
         case "cp":
             header('Location: ../panel');
-            break;
-
-        case "search":
-            search($_GET['q']);
             break;
 
         case "delete":

@@ -102,35 +102,6 @@ function login($email, $pass) {
     }
 }
 
-function search($word) {
-    if (empty($word)) return;
-    global $db;
-    $str = "%".$word."%";
-    $id = $_SESSION['id'];
-    if ($_SESSION['level'] === '1'){
-        $do = $db->prepare("SELECT originalname, filename FROM files WHERE originalname LIKE (:1) OR filename LIKE (:2)");
-        $do->bindParam(':1', $str);
-        $do->bindParam(':2', $str);
-        $do->execute();
-
-        while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
-            print strip_tags($row['originalname']).' - '.'<a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].' </a> '.'<a href="'.MOE_URL.'/includes/api.php?do=delete&f='.$row['filename'].'" target="_BLANK"> Delete</a><br/>';
-        }
-
-        //Yes I love not being efficient, deal with it.
-    } else {
-        $do = $db->prepare("SELECT originalname, filename FROM files WHERE originalname LIKE (:1) AND user = (:3) OR filename LIKE (:2) AND user = (:3)");
-        $do->bindParam(':1', $str);
-        $do->bindParam(':2', $str);
-        $do->bindParam(':3', $id);
-        $do->execute();
-
-        while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
-            print strip_tags($row['originalname']).' - '.'<a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].' </a> '.'<a href="'.MOE_URL.'/includes/api.php?do=delete&f='.$row['filename'].'" target="_BLANK"> Delete</a><br/>';
-        }
-    }
-}
-
 function cfdelete($file) {
 
     $cloudflare = array(
