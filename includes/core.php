@@ -150,7 +150,7 @@ function cfdelete($file) {
     curl_close($hue);
 }
 
-function delete($filename, $deleteid, $mod) {
+function delete($filename, $deleteid) {
     if (empty($filename)) {
         echo "You did something wrong, baka.";
     } else {
@@ -205,6 +205,19 @@ function fetchFiles($date, $count, $keyword) {
 
 }
 
+function report($file, $fileid, $hash) {
+    global $db;
+    $do = $db->prepare("INSERT INTO reports (hash, date, file, fileid, reporter) VALUES (:hash, :date, :file, :fileid, :reporter)");
+    $do->bindValue(':file', strip_tags($file));
+    $do->bindValue(':date', date('Y-m-d'));
+    $do->bindValue(':reporter', $_SESSION['email']);
+    $do->bindValue(':fileid', $fileid);
+    $do->bindValue(':hash', $hash);
+    $do->execute();
+    echo 'Thank you, report has been sent. The file will be reviewed and probably deleted.';
+
+}
+
 function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $orginalname) {
     if ($_SESSION['level'] > '0') {
         global $db;
@@ -215,14 +228,7 @@ function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $org
             break;
 
         case "report":
-            $do = $db->prepare("INSERT INTO reports (hash, date, file, fileid, reporter) VALUES (:hash, :date, :file, :fileid, :reporter)");
-            $do->bindValue(':file', strip_tags($file));
-            $do->bindValue(':date', date('Y-m-d'));
-            $do->bindValue(':reporter', $_SESSION['email']);
-            $do->bindValue(':fileid', $fileid);
-            $do->bindValue(':hash', $hash);
-            $do->execute();
-            echo 'Thank you, report has been sent. The file will be reviewed and probably deleted.';
+            report($file, $fileid, $count);
             break;
 
         case "reports":
