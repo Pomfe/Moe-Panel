@@ -35,7 +35,8 @@
 					<ul class="nav navbar-nav">
 						<li><a href="<?php echo MOE_URL; ?>/panel" target="_BLANK">Moe Panel</a></li>
 						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=invite" target="_BLANK">Invites</a></li>
-						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Reports</a></li>
+						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Report</a></li>
+						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=mod&action=reports" target="_BLANK">Reports</a></li>
 						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
 					</ul>
 				</div>
