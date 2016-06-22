@@ -1,8 +1,5 @@
 <?php include('header.php');?>
-		<div class="row">
-			<p> Status 0 = not removed</p>
-			<p> Status 1 = removed (not shown)</p>
-		</div>
+		<p class="bg-success"> Status 0 = not removed Status 1 = removed (not shown)</p>
 		<table id="result" class="table"> 
 		<tr>
 			<th>ID</th>
