@@ -4,12 +4,10 @@
 // Include core file
 require_once('core.php');
 
-if(isset($_GET['do'])){
-
+if (isset($_GET['do'])) {
     $butt = $_GET['do'];
 
-    switch($butt){
-
+    switch ($butt) {
         case "login":
             login($_POST['email'], $_POST['pass']);
             break;
@@ -39,7 +37,7 @@ if(isset($_GET['do'])){
             break;
 
         case "delete":
-            delete($_GET['filename'],$_GET['fileid']);
+            delete($_GET['filename'], $_GET['fileid']);
             break;
 
         case "logout":
@@ -49,7 +47,7 @@ if(isset($_GET['do'])){
             header('Location: ../login');
             break;
 
-        default: echo "We could call this a 404 not found... Or what are you doing here?";
+        default:
+            echo "We could call this a 404 not found... Or what are you doing here?";
     }
 }
-?>

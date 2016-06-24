@@ -28,19 +28,19 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="<?php echo MOE_URL;?>"><?php echo POMF_NAME; ?></a>
-				</div>
+                </div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li><a href="<?php echo MOE_URL; ?>/panel" target="_BLANK">Moe Panel</a></li>
-						<li><a href="<?php echo MOE_URL; ?>/panel/search.php" target="_BLANK">Search</a></li>
-						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=invite" target="_BLANK">Invites</a></li>
-						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Report</a></li>
-						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=mod&action=reports" target="_BLANK">Reports</a></li>
-						<li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<div class="container-fluid">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="<?php echo MOE_URL; ?>/panel" target="_BLANK">Moe Panel</a></li>
+                        <li><a href="<?php echo MOE_URL; ?>/panel/search.php" target="_BLANK">Search</a></li>
+                        <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=invite" target="_BLANK">Invites</a></li>
+                        <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Report</a></li>
+                        <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=mod&action=reports" target="_BLANK">Reports</a></li>
+                        <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">

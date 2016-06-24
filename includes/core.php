@@ -4,7 +4,8 @@
 session_start();
 require_once 'database.inc.php';
 
-function register($email, $pass, $code) {
+function register($email, $pass, $code)
+{
     global $db;
     $do = $db->prepare("SELECT code, used, level FROM invites WHERE email = (:email)");
     $do->bindParam(':email', $email);
@@ -31,9 +32,10 @@ function register($email, $pass, $code) {
     }
 }
 
-function generate($email, $level) {
+function generate($email, $level)
+{
     global $db;
-    if ($_SESSION['level'] === '1'){
+    if ($_SESSION['level'] === '1') {
         if (empty($email) or empty($level)) {
             include_once('../templates/invites.php');
         } else {
@@ -56,13 +58,15 @@ function generate($email, $level) {
             $headers = array ('From' => $from,
                     'To' => $to,
                     'Subject' => $subject);
-            $smtp = Mail::factory('smtp',
-                    array ('host' => $host,
+            $smtp = Mail::factory(
+                'smtp',
+                array ('host' => $host,
                         'auth' => true,
                         'username' => $username,
-                        'password' => $password));
+                'password' => $password)
+            );
 
-            $mail = $smtp->send($to, $headers, $body);
+                    $mail = $smtp->send($to, $headers, $body);
 
             if (PEAR::isError($mail)) {
                 echo("<p>" . $mail->getMessage() . "</p>");
@@ -76,7 +80,8 @@ function generate($email, $level) {
 
 }
 
-function generateRandomString() {
+function generateRandomString()
+{
     $characters = ID_CHARSET;
     $randomString = '';
     for ($i = 0; $i < LENGTH; $i++) {
@@ -85,7 +90,8 @@ function generateRandomString() {
     return $randomString;
 }
 
-function login($email, $pass) {
+function login($email, $pass)
+{
     global $db;
     $do = $db->prepare("SELECT pass, id, email, level FROM accounts WHERE email = (:email)");
     $do->bindParam(':email', $email);
@@ -102,7 +108,8 @@ function login($email, $pass) {
     }
 }
 
-function cfdelete($file) {
+function cfdelete($file)
+{
 
     $cloudflare = array(
         'a' => 'zone_file_purge',
@@ -112,19 +119,22 @@ function cfdelete($file) {
         'url' => urlencode(POMF_URL.$file),
     );
 
-    foreach($cloudflare as $dick=>$cum) { $cloudflare_string .= $dick.'='.$cum.'&'; }
+    foreach ($cloudflare as $dick => $cum) {
+        $cloudflare_string .= $dick.'='.$cum.'&';
+    }
     rtrim($cloudflare_string, '&');
 
     $hue = curl_init();
-    curl_setopt($hue,CURLOPT_URL, 'https://www.cloudflare.com/api_json.html');
-    curl_setopt($hue,CURLOPT_POST, count($cloudflare));
-    curl_setopt($hue,CURLOPT_POSTFIELDS, $cloudflare_string);
-    curl_setopt($hue,CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($hue, CURLOPT_URL, 'https://www.cloudflare.com/api_json.html');
+    curl_setopt($hue, CURLOPT_POST, count($cloudflare));
+    curl_setopt($hue, CURLOPT_POSTFIELDS, $cloudflare_string);
+    curl_setopt($hue, CURLOPT_RETURNTRANSFER, true);
     curl_exec($hue);
     curl_close($hue);
 }
 
-function delete($filename, $deleteid) {
+function delete($filename, $deleteid)
+{
     if (empty($filename)) {
         echo "You did something wrong, baka.";
     } else {
@@ -147,9 +157,10 @@ function delete($filename, $deleteid) {
     }
 }
 
-function fetchFiles($date, $count, $keyword) {
+function fetchFiles($date, $count, $keyword)
+{
     global $db;
-    if($_SESSION['level'] > '0') {
+    if ($_SESSION['level'] > '0') {
         $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
     } else {
         $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) OR filename LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) ORDER BY id DESC LIMIT 0,:amount");
@@ -171,7 +182,6 @@ function fetchFiles($date, $count, $keyword) {
             <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
             <td>'.$row['size'].'</td>
             <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=delete&action=remove&fileid='.$row['id'].'&filename='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
-
     }
     echo '</table>';
     require('../templates/footer.php');
@@ -180,12 +190,12 @@ function fetchFiles($date, $count, $keyword) {
 
 }
 
-function report($file) {
+function report($file)
+{
     global $db;
     if (empty($file)) {
         include('../templates/report.php');
     } else {
-
         $do = $db->prepare("select id, hash from files where filename = :file");
         $do->bindValue(':file', strip_tags($file));
         $do->execute();
@@ -199,67 +209,64 @@ function report($file) {
         $do->bindValue(':hash', $query['hash']);
         $do->execute();
         echo 'Thank you, report has been sent. The file will be reviewed and probably deleted.';
-
     }
 
 }
 
-function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $orginalname) {
+function mod($action, $date, $count, $why, $file, $keyword, $fileid, $hash, $orginalname)
+{
     if ($_SESSION['level'] > '0') {
         global $db;
-        switch($action) {
+        switch ($action) {
+            case "fetch":
+                fetchFiles($date, $count, $keyword);
+                break;
 
-        case "fetch":
-            fetchFiles($date, $count, $keyword);
-            break;
+            case "report":
+                report($file, $fileid, $count);
+                break;
 
-        case "report":
-            report($file, $fileid, $count);
-            break;
+            case "reports":
+                if ($_SESSION['id'] === '1') {
+                    $do = $db->prepare("SELECT * FROM reports WHERE status = '0'");
+                    $do->execute();
 
-        case "reports":
-            if ($_SESSION['id'] === '1') {
-                $do = $db->prepare("SELECT * FROM reports WHERE status = '0'");
-                $do->execute();
-
-                $i = 0;
-                require('../templates/reports.php');
-                while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
-                    $i++;
-                    echo '<tr><td>'.$row['id'].'</td>
+                    $i = 0;
+                    require('../templates/reports.php');
+                    while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
+                        $i++;
+                        echo '<tr><td>'.$row['id'].'</td>
                         <td><a href="'.POMF_URL.strip_tags($row['file']).'" target="_BLANK">'.strip_tags($row['file']).'</td>
                         <td>'.$row['fileid'].'</td>
                         <td>'.$row['reporter'].'</td>
                         <td>'.$row['status'].'</td>
                         <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=mod&action=remove&fileid='.$row['fileid'].'&file='.$row['file'].'" target="_BLANK">Remove file</a></td></tr>';
-
+                    }
+                    echo '</table>';
+                    require 'footer.php';
+                    echo $i.' Reports in total at being shown.';
+                } else {
+                    echo 'You are not allowed to be here, yet.';
                 }
-                echo '</table>';
-                require 'footer.php';
-                echo $i.' Reports in total at being shown.';
-            } else {
-                echo 'You are not allowed to be here, yet.';
-            }
-            break;
-
-        case "remove":
-            if ($_SESSION['id'] < '0') {
-                delete($file, $fileid);
-            }
-            if ($_SESSION['id'] > '0') {
-                $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
-                $do->bindParam(':id', $fileid);
-                $do->execute();
-                unlink(POMF_FILES_ROOT.$file);
-                cfdelete($file);
-                $do = $db->prepare("UPDATE reports SET status = (:status) WHERE fileid = (:fileid)");
-                $do->bindValue(':status', '1');
-                $do->bindValue(':fileid', $fileid);
-                $do->execute();
-                echo 'Deleted';
                 break;
-            }
+
+            case "remove":
+                if ($_SESSION['id'] < '0') {
+                    delete($file, $fileid);
+                }
+                if ($_SESSION['id'] > '0') {
+                    $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
+                    $do->bindParam(':id', $fileid);
+                    $do->execute();
+                    unlink(POMF_FILES_ROOT.$file);
+                    cfdelete($file);
+                    $do = $db->prepare("UPDATE reports SET status = (:status) WHERE fileid = (:fileid)");
+                    $do->bindValue(':status', '1');
+                    $do->bindValue(':fileid', $fileid);
+                    $do->execute();
+                    echo 'Deleted';
+                    break;
+                }
         }
     }
 }
-?>
