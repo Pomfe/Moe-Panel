@@ -22,10 +22,10 @@ define('MOE_DB_PASS', '***');
  */
 define('POMF_FILES_ROOT', '');
 define('LENGTH', 32);
-define('POMF_NAME', 'Pantsu.cat');
-define('POMF_ADDRESS', 'pantsu.cat');
-define('POMF_URL', 'https://i.pantsu.cat/');
-define('MOE_URL', 'https://try.pantsu.cat/moe');
+define('POMF_NAME', 'Pomfe.co');
+define('POMF_ADDRESS', 'pomfe.co');
+define('POMF_URL', 'https://a.pomfe.co/');
+define('MOE_URL', 'https://pomfe.co/moe');
 define('ID_CHARSET', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
 /** SMTP email settings */
