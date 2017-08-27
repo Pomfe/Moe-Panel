@@ -1,6 +1,6 @@
 <?php
 
-define('MOE_DB_CONN', 'mysql:unix_socket=/tmp/mysql.sock;dbname=pomf');
+define('MOE_DB_CONN', 'mysql:host=127.0.0.1;dbname=pomf');
 
 /**
  * PDO database login credentials
