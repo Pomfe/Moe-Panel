@@ -7,29 +7,15 @@ require_once 'database.inc.php';
 function register($email, $pass, $code)
 {
     global $db;
-    $do = $db->prepare("SELECT code, used, level FROM invites WHERE email = (:email)");
-    $do->bindParam(':email', $email);
-    $do->execute();
-    $result = $do->fetch();
-    if (!$result['code'] == $code) {
-        header('Location: ../register/index.html#fail2');
-    } elseif ($result['used'] == '1') {
-        header('Location: ../register/index.html#fail3');
-    } else {
         $do = $db->prepare("INSERT INTO accounts (email, pass, level) VALUES (:email, :pass, :level)");
         $do->bindParam(':email', $email);
         $do->bindParam(':level', $result['level']);
         $hash = password_hash($pass, PASSWORD_DEFAULT);
         $do->bindParam(':pass', $hash);
         $do->execute();
-        $do = $db->prepare("UPDATE invites SET used = (:used) WHERE email = (:email)");
-        $do->bindValue(':used', '1');
-        $do->bindParam(':email', $email);
-        $do->execute();
         $_SESSION['id'] = $result['id'];
         $_SESSION['email'] = $result['email'];
         header('Location: api.php?do=cp');
-    }
 }
 
 function generate($email, $level)
