@@ -7,9 +7,9 @@ require_once 'database.inc.php';
 function register($email, $pass, $code)
 {
     global $db;
-        $do = $db->prepare("INSERT INTO accounts (email, pass, level) VALUES (:email, :pass, :level)");
+    // I don't know if 0 is user level or ... - someone check <3 
+        $do = $db->prepare("INSERT INTO accounts (email, pass, level) VALUES (:email, :pass, 0)");
         $do->bindParam(':email', $email);
-        $do->bindParam(':level', $result['level']);
         $hash = password_hash($pass, PASSWORD_DEFAULT);
         $do->bindParam(':pass', $hash);
         $do->execute();
