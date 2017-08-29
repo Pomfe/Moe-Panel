@@ -14,7 +14,7 @@ function register($email, $pass, $code)
         $do->bindParam(':pass', $hash);
         $do->execute();
         $_SESSION['id'] = $result['id'];
-        $_SESSION['email'] = $result['email'];
+        $_SESSION['email'] = $email;
         header('Location: api.php?do=cp');
 }
 
