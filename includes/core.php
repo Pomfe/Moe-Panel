@@ -13,7 +13,6 @@ function register($email, $pass, $code)
         $hash = password_hash($pass, PASSWORD_DEFAULT);
         $do->bindParam(':pass', $hash);
         $do->execute();
-        $_SESSION['id'] = $result['id'];
         $_SESSION['email'] = $email;
         header('Location: api.php?do=cp');
 }
