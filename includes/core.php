@@ -18,54 +18,6 @@ function register($email, $pass, $code)
         header('Location: api.php?do=cp');
 }
 
-function generate($email, $level)
-{
-    global $db;
-    if ($_SESSION['level'] === '1') {
-        if (empty($email) or empty($level)) {
-            include_once('../templates/invites.php');
-        } else {
-            $do = $db->prepare("INSERT INTO invites (email, code, level) VALUES (:email, :code, :level)");
-            $do->bindParam(':email', $email);
-            $code = generateRandomString();
-            $do->bindParam(':code', $code);
-            $do->bindParam(':level', $level);
-            $do->execute();
-            require_once('Mail.php');
-            $from = "Invites <invites@".POMF_ADDRESS.">";
-            $to = $email;
-            $subject = POMF_NAME." Account Invite";
-            $body = "This is a automated message from ".POMF_NAME." \n Your invite code is: ".$code."\n Your invite email is: ".$email." \n Access level: ".$level." \n Register at ".MOE_URL."/register";
-
-            $host = SMTPD_HOST;
-            $username = SMTPD_USERNAME;
-            $password = SMTPD_PASSWORD;
-
-            $headers = array ('From' => $from,
-                    'To' => $to,
-                    'Subject' => $subject);
-            $smtp = Mail::factory(
-                'smtp',
-                array ('host' => $host,
-                        'auth' => true,
-                        'username' => $username,
-                'password' => $password)
-            );
-
-                    $mail = $smtp->send($to, $headers, $body);
-
-            if (PEAR::isError($mail)) {
-                echo("<p>" . $mail->getMessage() . "</p>");
-            } else {
-                echo("<p>Message successfully sent!</p>");
-            }
-        }
-    } else {
-        echo 'What are you doing here? Go away!';
-    }
-
-}
-
 function generateRandomString()
 {
     $characters = ID_CHARSET;
