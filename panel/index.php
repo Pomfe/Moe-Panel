@@ -6,7 +6,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet" />
+		<link href="sanspro.css" rel="stylesheet" />
 		<script src="js/jquery.min.js"></script>
 		<script src="js/config.js"></script>
 		<script src="js/skel.min.js"></script>
@@ -50,10 +50,10 @@
                 	<!-- Footer -->
                     	<div id="footer">
                         	<ul class="links">
-                            		<li><a href="//pantsu.cat/">Pantsu</a></li>
-                            		<li><a href="//p.pantsu.cat/">Paste</a></li>
-                            		<li><a href="//blog.pantsu.cat">Blog</a></li>
-                            		<li><a href="//pantsu.cat/faq.html">FAQ</a></li>
+                            		<li><a href="//pomfe.co/">Pomfe</a></li>
+                            		<li><a href="//pomfe.co/paste">Paste</a></li>
+                            		<li><a href="https://twitter.com/Votton">Twitter</a></li>
+                            		<li><a href="//pomfe.co/faq">FAQ</a></li>
                             		<li><a href="../includes/api.php?do=logout">Logout</a></li>
                         	</ul>
                     	</div>
