@@ -39,6 +39,10 @@
                         <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Report</a></li>
                         <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=mod&action=reports" target="_BLANK">Reports</a></li>
                         <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
+						<li><form action="upload.php" method="post" enctype="multipart/form-data">
+						    <li><input type="file" name="fileToUpload" id="fileToUpload"></li>
+							<li><input type="submit" value="Upload Image" name="submit"></li>
+						</form></li>
                     </ul>
                 </div>
             </div>

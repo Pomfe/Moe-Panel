@@ -4,13 +4,12 @@
 session_start();
 require_once 'database.inc.php';
 
-function register($email, $pass, $code)
+function register($email, $pass)
 {
     global $db;
-    // I don't know if 0 is user level or ... - someone check <3 
+	    $hash = password_hash($pass, PASSWORD_DEFAULT);
         $do = $db->prepare("INSERT INTO accounts (email, pass, level) VALUES (:email, :pass, 0)");
         $do->bindParam(':email', $email);
-        $hash = password_hash($pass, PASSWORD_DEFAULT);
         $do->bindParam(':pass', $hash);
         $do->execute();
         $_SESSION['email'] = $email;
@@ -97,20 +96,27 @@ function delete($filename, $deleteid)
 function fetchFiles($date, $count, $keyword)
 {
     global $db;
-    if ($_SESSION['level'] > '0') {
-        $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
-    } else {
-        $do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) OR filename LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) ORDER BY id DESC LIMIT 0,:amount");
-        $do->bindValue(':userid', $_SESSION['id']);
-    }
-
-    $do->bindValue(':date', "%".$date."%");
-    $do->bindValue(':amount', (int) $count, PDO::PARAM_INT);
-    $do->bindValue(':keyword', "%".$keyword."%");
+	if ($date == null && $count == null && $keyword == null) {
+		if ($_SESSION['level'] > '0') {
+			$do = $db->prepare("SELECT * FROM files ORDER BY id DESC LIMIT 0");
+		} else {
+			$do = $db->prepare("SELECT * FROM files WHERE user = (:userid) ORDER BY id DESC LIMIT 0");
+			$do->bindValue(':userid', $_SESSION['id']);
+		}	
+	} else {
+		if ($_SESSION['level'] > '0') {
+			$do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
+		} else {
+			$do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) OR filename LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) ORDER BY id DESC LIMIT 0,:amount");
+			$do->bindValue(':userid', $_SESSION['id']);
+		}
+		$do->bindValue(':date', "%".$date."%");
+		$do->bindValue(':keyword', "%".$keyword."%");
+		$do->bindValue(':amount', (int) $count, PDO::PARAM_INT);
+	}
 
     require('../templates/search.php');
-
-    $do->execute();
+	$do->execute();
     $i = 0;
     while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
         $i++;
@@ -122,9 +128,60 @@ function fetchFiles($date, $count, $keyword)
     }
     echo '</table>';
     require('../templates/footer.php');
-    echo '<p>'.$i.' Files in total at being shown.</p>';
+	if ($i == 0) {
+		echo '<p>No files found.</p>';
+	} else {
+		echo '<p>'.$i.' files found.</p>';
+	}
+}
 
+function dbInsertFile($path) {
+	global $db;
+	$hash = sha1_file($path);
+	$size = filesize($path);
+	$originalName = pathinfo($path, PATHINFO_FILENAME);
+	$dir = str_replace($originalName, "", $path);
+	$date = date_default_timezone_get();
+	$user = $_SESSION['email'];
+	
+	$extension = pathinfo($path, PATHINFO_EXTENSION);
+	
+	do {
+		// Iterate until we reach the maximum number of retries
+		if ($tries-- == 0) throw new Exception('Phew! It\'s exhausting trying to find an unused name.', 500);
 
+		$chars = 'abcdefghijklmnopqrstuvwxyz';
+
+		$name  = '';
+
+		for ($i = 0; $i < 7; $i++) {
+
+			$name .= $chars[mt_rand(0, 25)];
+
+			// $chars string length is hardcoded, should use a variable to store it?
+		}
+
+		// Add the extension to the file name
+
+		if (isset($ext) && $ext !== '')
+
+			$name .= '.' . strip_tags($extension);
+
+		// Check if a file with the same name does already exist in the database
+
+		$q = $db->prepare('SELECT COUNT(name) FROM files WHERE name = (:name)');
+
+		$q->bindValue(':name', $name, PDO::PARAM_STR);
+
+		$q->execute();
+
+		$result = $q->fetchColumn();
+
+	// If it does, generate a new name
+
+	} while($result > 0);
+	
+	$newName = $name;
 }
 
 function report($file)

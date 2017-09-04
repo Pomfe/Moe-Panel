@@ -1,7 +1,7 @@
 <?php
 include_once('../includes/core.php');
 if ($_SESSION['level'] > 0) {
-    mod($action = 'fetch');
+    fetchFiles(null, null, null);
 } else {
-    fetchFiles();
+    fetchFiles(null, null, null);
 }

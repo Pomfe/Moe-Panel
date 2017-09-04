@@ -13,9 +13,13 @@ if (isset($_GET['do'])) {
             break;
 
         case "register":
-            register($_POST['email'], $_POST['pass'], $_POST['code']);
+            register($_POST['email'], $_POST['pass']);
             break;
-
+		
+		case "upload":
+			upload();
+			break;
+			
         case "invite":
             generate($_GET['email'], $_GET['level']);
             break;
