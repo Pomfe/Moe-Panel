@@ -19,10 +19,6 @@ if (isset($_GET['do'])) {
 		case "upload":
 			upload();
 			break;
-			
-        case "invite":
-            generate($_GET['email'], $_GET['level']);
-            break;
 
         case "fetch":
             fetchFiles($_GET['date'], $_GET['count'], $_GET['keyword']);
