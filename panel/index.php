@@ -7,12 +7,11 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<link href="sanspro.css" rel="stylesheet" />
-		<script src="js/popper.js"></script>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/config.js"></script>
 		<script src="js/skel.min.js"></script>
 		<noscript>
-			<!-- Load some separate styles in for clients that aren't running the javascript -->
+			<!-- Load some seperate styles in for clients that aren't running the javascript -->
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-desktop.css" />
