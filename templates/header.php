@@ -25,17 +25,22 @@
 	<body>
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
-				<div class="navbar-header">
+				<div class="navbar-header" style="float:none; display:block !important; width:105px !important; margin: 0 auto !important;">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="<?php echo MOE_URL;?>"><?php echo POMF_NAME; ?></a>
+					<a style="margin-left:auto;margin-right:auto;text-align:center" class="navbar-brand" href="<?php echo MOE_URL;?>"><?php echo POMF_NAME; ?></a>
                 </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
+                <style>
+                    ul {
+                        width:100%;
+                    }
+                </style>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li><a href="<?php echo MOE_URL; ?>/panel" target="_BLANK">Moe Panel</a></li>
@@ -43,13 +48,12 @@
                         <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=invite" target="_BLANK">Invites</a></li>
                         <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=report" target="_BLANK">Report</a></li>
                         <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=mod&action=reports" target="_BLANK">Reports</a></li>
-                        <li><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
-						<li><form action="upload.php" method="post" enctype="multipart/form-data">
-						    <li><input type="file" name="fileToUpload" id="fileToUpload"></li>
-							<li><input type="submit" value="Upload Image" name="submit"></li>
-						</form></li>
+                        <li style="float:right;"><a href="<?= POMF_URL ?>" target="_BLANK">Upload</a></li>
+                        <li style="float:right;"><a href="<?php echo MOE_URL; ?>/includes/api.php?do=logout">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div class="container-fluid">
+
+

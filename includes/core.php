@@ -1,6 +1,6 @@
 <?php
 //error_reporting(E_ERROR | E_WARNING | E_PARSE);
-// This file will handle all functions used by Pomf's Moe Panel
+// This file will handle all functions used by Pomfe's Moe Panel
 session_start();
 require_once 'database.inc.php';
 
@@ -46,7 +46,7 @@ function login($email, $pass)
 
 function cfdelete($file)
 {
-
+    $cloudflare_string = null;
     $cloudflare = array(
         'a' => 'zone_file_purge',
         'tkn' => CF_TOKEN,
@@ -55,9 +55,10 @@ function cfdelete($file)
         'url' => urlencode(POMF_URL.$file),
     );
 
-    foreach ($cloudflare as $dick => $cum) {
-        $cloudflare_string .= $dick.'='.$cum.'&';
+    foreach ($cloudflare as $x => $y) {
+        $cloudflare_string .= $x.'='.$y.'&';
     }
+
     rtrim($cloudflare_string, '&');
 
     $hue = curl_init();
@@ -80,7 +81,7 @@ function delete($filename, $deleteid)
         $do->execute();
         $result = $do->fetch(PDO::FETCH_ASSOC);
 
-        if ($_SESSION['level'] === '1' || $result['user'] === $_SESSION['id']) {
+        if ($_SESSION['level'] === '1' || $result['user'] === $_SESSION['email']) {
             $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
             $do->bindParam(':id', $result['id']);
             $do->execute();
@@ -93,22 +94,47 @@ function delete($filename, $deleteid)
     }
 }
 
+function fetchUserFiles($user) {
+    if ($user == "*") {
+
+    } else {
+        global $db;
+        $do = $db->prepare("SELECT * FROM files WHERE user = (:userid) ORDER BY id DESC");
+        $do->bindParam(":userid", $user);
+        require('../templates/search.php');
+        $do->execute();
+        $i = 0;
+        while ($row = $do->fetch(PDO::FETCH_ASSOC)) {
+            $i++;
+            echo '<tr><td>'.$row['id'].'</td>
+            <td>'.strip_tags($row['originalname']).'</td>
+            <td><a href="'.POMF_URL.$row['filename'].'" target="_BLANK">'.$row['filename'].'</a> ('.$row['originalname'].')</td>
+            <td>'.$row['size'].'</td>
+            <td><a class="btn btn-default" href="'.MOE_URL.'/includes/api.php?do=delete&action=remove&fileid='.$row['id'].'&filename='.$row['filename'].'" target="_BLANK">Remove</a></td></tr>';
+        }
+        echo '</table>';
+        require('../templates/footer.php');
+        if ($i == 0) {
+            echo '<p>No files found.</p>';
+        } else {
+            echo '<p>'.$i.' files found.</p>';
+        }
+    }
+}
+
 function fetchFiles($date, $count, $keyword)
 {
     global $db;
 	if ($date == null && $count == null && $keyword == null) {
-		if ($_SESSION['level'] > '0') {
-			$do = $db->prepare("SELECT * FROM files ORDER BY id DESC LIMIT 0");
-		} else {
 			$do = $db->prepare("SELECT * FROM files WHERE user = (:userid) ORDER BY id DESC LIMIT 0");
-			$do->bindValue(':userid', $_SESSION['id']);
-		}	
+			$do->bindValue(':userid', $_SESSION['email']);
 	} else {
 		if ($_SESSION['level'] > '0') {
+		    echo "Admin";
 			$do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) OR filename LIKE (:keyword) AND date LIKE (:date) ORDER BY id DESC LIMIT 0,:amount");
 		} else {
 			$do = $db->prepare("SELECT * FROM files WHERE originalname LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) OR filename LIKE (:keyword) AND date LIKE (:date) AND user = (:userid) ORDER BY id DESC LIMIT 0,:amount");
-			$do->bindValue(':userid', $_SESSION['id']);
+			$do->bindValue(':userid', $_SESSION['email']);
 		}
 		$do->bindValue(':date', "%".$date."%");
 		$do->bindValue(':keyword', "%".$keyword."%");

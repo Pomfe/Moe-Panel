@@ -1,7 +1,9 @@
 <?php
+session_start();
 include_once('../includes/core.php');
 if ($_SESSION['level'] > 0) {
-    fetchFiles(null, null, null);
+    echo "Admin";
+    fetchUserFiles($_SESSION['email']);
 } else {
-    fetchFiles(null, null, null);
+    fetchUserFiles($_SESSION['email']);
 }
