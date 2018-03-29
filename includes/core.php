@@ -40,7 +40,7 @@ function login($email, $pass)
         $_SESSION['level'] = $result['level'];
         header('Location: api.php?do=cp');
     } else {
-        header('Location: ../login/index.html#fail');
+        header('Location: ../login/index.php#fail');
     }
 }
 
@@ -83,7 +83,7 @@ function delete($filename, $deleteid)
 
         if ($_SESSION['level'] === '1' || $result['user'] === $_SESSION['email']) {
             $do = $db->prepare("DELETE FROM files WHERE id = (:id)");
-            $do->bindParam(':id', $result['id']);
+            $do->bindParam(':id', $result['email']);
             $do->execute();
             unlink(POMF_FILES_ROOT.$filename);
             cfdelete($filename);

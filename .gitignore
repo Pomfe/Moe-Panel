@@ -13,4 +13,3 @@ package.json
 .vs/VSWorkspaceState.json
 .vs/slnx.sqlite
 .idea/workspace.xml
-includes/settings.inc.php
