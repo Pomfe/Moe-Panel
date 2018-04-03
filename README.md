@@ -1,6 +1,4 @@
 #Moe panel
-Moe is shit code and will be replaced soon so just deal with it.
-
-##Configuring
-All options can be found in includes/settings.inc.php 
-
+[h2]Working (Mostly, with the exception of the reports[/h2]
+[h2]DISCONTINUED[/h2]
+[h3]Replaced by [a href="https://github.com/Pomfe/PomfePanel"]Pomfe Panel[/a][/h3]
